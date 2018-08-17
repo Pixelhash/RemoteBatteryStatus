@@ -1,0 +1,109 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Loading...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="Remote Battery Status">
+    <meta name="author" content="CodeHat">
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <style>
+        body {
+            background-color: beige;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 4rem;
+        }
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .container > p {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <p id="batteryPercentage">Loading...</p>
+</div>
+
+<script>
+    const RETRY_AMOUNT = 3;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const bodyElement = document.getElementsByTagName("body")[0];
+        const intervalId = window.setInterval(updateBatteryPercentage, 5000);
+
+        var retries = 0;
+
+        // Request permission for notifications.
+        requestNotificationPermission();
+
+        // Fire frist update right away.
+        updateBatteryPercentage();
+
+        function updateBatteryPercentage() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    const batteryPercentageStr = xhttp.responseText + " %";
+                    const batteryPercentageInt = parseInt(xhttp.responseText)
+
+                    bodyElement.style.backgroundColor = makeRgbCss(batteryPercentageInt / 100.0);
+                    document.getElementsByTagName("title")[0].innerText = batteryPercentageStr;
+                    document.getElementById("batteryPercentage").innerText = batteryPercentageStr;
+
+                    if (batteryPercentageInt === 100) {
+                        clearInterval(intervalId);
+                        
+                        var notification = new Notification('Remote Battery Status', {
+                            body: "Hey there! Your mobile phone is fully charged! ",
+                        });
+                    }
+                }
+            };
+            xhttp.onerror = function() {
+                retries++;
+                
+                // Add one extra to have an inclusive RETRY_AMOUNT.
+                if (retries === RETRY_AMOUNT + 1) {
+                    clearInterval(intervalId);
+
+                    bodyElement.style.backgroundColor = "rgba(255,0,0,0.30)";
+                    document.getElementsByTagName("title")[0].innerText = "Failed";
+                    document.getElementById("batteryPercentage").innerText = "Failed! Reload page!";
+                } else {
+                    document.getElementsByTagName("title")[0].innerText = "Error";
+                    document.getElementById("batteryPercentage").innerText = "Error (Try " + retries + "/" + RETRY_AMOUNT + ")";
+                }
+            }
+            xhttp.open("GET", "/?valueOnly", true);
+            xhttp.send();
+        }
+
+        function makeRgbCss(factor) {            
+            const red = (1.0 - factor) * 255;
+            const green = factor * 255;
+            return "rgba(" + red + "," + green + ",0, 0.15)";
+        }
+
+        function requestNotificationPermission() {
+            if (!Notification) {
+                return;
+            }
+
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Remote Battery Status</string>
+    <string name="title_activity_main">Remote Battery Status</string>
+    <string name="message">You can now access the Web Interface from a browser connected to the same wifi network.</string>
+    <string name="wifi_message">You must connect to a WiFi network to use this service.</string>
+
+    <string name="channel_name">Main</string>
+    <string name="channel_description">Main notification channel.</string>
+</resources>
