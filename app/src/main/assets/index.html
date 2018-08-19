@@ -53,6 +53,8 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    retries = 0;
+
                     const batteryPercentageStr = xhttp.responseText + " %";
                     const batteryPercentageInt = parseInt(xhttp.responseText)
 

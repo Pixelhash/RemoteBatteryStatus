@@ -13,9 +13,10 @@ class RemoteBatteryStatusWebServer(private val context: Context,
                                    port: Int): NanoHTTPD(hostname, port) {
 
     private var batteryPercentage: Int = getBatteryLevel().toInt()
+    private var batteryChangedReceiver: BroadcastReceiver
 
     init {
-        val batteryChangedReceiver: BroadcastReceiver = object: BroadcastReceiver() {
+        batteryChangedReceiver = object: BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 batteryPercentage = getBatteryLevel(intent).toInt()
 
@@ -39,5 +40,12 @@ class RemoteBatteryStatusWebServer(private val context: Context,
         val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
         return level.toFloat() / scale.toFloat() * 100.0f
+    }
+
+    override fun stop() {
+        super.stop()
+
+        // Unregister receiver.
+        context.unregisterReceiver(batteryChangedReceiver)
     }
 }
