@@ -12,7 +12,7 @@ import android.widget.Toast
 import de.codehat.remotebatterystatus.MainActivity
 import de.codehat.remotebatterystatus.R
 import de.codehat.remotebatterystatus.RemoteBatteryStatusWebServer
-import de.codehat.remotebatterystatus.StopServerReceiver
+import de.codehat.remotebatterystatus.receiver.StopServerReceiver
 import de.codehat.remotebatterystatus.util.WifiUtil
 import java.security.KeyStore
 import javax.net.ssl.KeyManagerFactory
@@ -117,14 +117,14 @@ class WebServerService: Service() {
         val mainPendingIntent: PendingIntent = PendingIntent.getBroadcast(applicationContext, 0, mainIntent, 0)
 
         val notification: Notification = NotificationCompat.Builder(this, "main")
-                .setSmallIcon(R.drawable.ic_stat_server_status)
-                .setContentTitle("Remote Battery Status")
-                .setContentText("Server is running on $hostname:$port!")
+                //.setSmallIcon()
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notification_description, hostname, port))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
-                .addAction(R.drawable.ic_stop_server, "STOP", mainPendingIntent)
+                //.addAction(R.drawable.navigation_empty_icon, "STOP", mainPendingIntent)
                 .build()
 
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR

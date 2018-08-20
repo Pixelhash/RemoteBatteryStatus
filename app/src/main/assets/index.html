@@ -21,8 +21,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        .container > p {
+        .container p {
             text-align: center;
+        }
+        .container #about {
+            font-size: 1rem;
         }
     </style>
 
@@ -32,6 +35,7 @@
 
 <div class="container">
     <p id="batteryPercentage">Loading...</p>
+    <p id="about">Remote Battery Status by <a href="https://codehat.de">CodeHat</a></p>
 </div>
 
 <script>
@@ -39,6 +43,7 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         const bodyElement = document.getElementsByTagName("body")[0];
+        const aboutElement = document.getElementById("about");
         const intervalId = window.setInterval(updateBatteryPercentage, 5000);
 
         var retries = 0;
@@ -58,7 +63,8 @@
                     const batteryPercentageStr = xhttp.responseText + " %";
                     const batteryPercentageInt = parseInt(xhttp.responseText)
 
-                    bodyElement.style.backgroundColor = makeRgbCss(batteryPercentageInt / 100.0);
+                    aboutElement.style.color = makeRgbCss(batteryPercentageInt / 100.0, 0.30);
+                    bodyElement.style.backgroundColor = makeRgbCss(batteryPercentageInt / 100.0, 0.15);
                     document.getElementsByTagName("title")[0].innerText = batteryPercentageStr;
                     document.getElementById("batteryPercentage").innerText = batteryPercentageStr;
 
@@ -78,7 +84,8 @@
                 if (retries === RETRY_AMOUNT + 1) {
                     clearInterval(intervalId);
 
-                    bodyElement.style.backgroundColor = "rgba(255,0,0,0.30)";
+                    bodyElement.style.color = "rgba(255,0,0,0.30)";
+                    aboutElement.style.backgroundColor = "rgba(255,0,0,0.60)";
                     document.getElementsByTagName("title")[0].innerText = "Failed";
                     document.getElementById("batteryPercentage").innerText = "Failed! Reload page!";
                 } else {
@@ -90,10 +97,10 @@
             xhttp.send();
         }
 
-        function makeRgbCss(factor) {            
+        function makeRgbCss(factor, alpha) {            
             const red = (1.0 - factor) * 255;
             const green = factor * 255;
-            return "rgba(" + red + "," + green + ",0, 0.15)";
+            return "rgba(" + red + "," + green + ",0," + alpha + ")";
         }
 
         function requestNotificationPermission() {

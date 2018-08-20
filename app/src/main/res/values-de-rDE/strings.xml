@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_about">Über</string>
+    <string name="infoMessage">Du kannst jetzt das Web Interface von einem Browser, der im selben WiFi Netzwerk ist, öffnen.</string>
+    <string name="channel_name">Standard</string>
+    <string name="channel_description">Der Standard Benachrichtigungskanal.</string>
+    <string name="wifi_message">Du musst mit dem WLAN verbunden sein, um dies zu nutzen.</string>
+    <string name="notification_description">Web Interface ist erreichbar unter %1$s:%2$d!</string>
+</resources>

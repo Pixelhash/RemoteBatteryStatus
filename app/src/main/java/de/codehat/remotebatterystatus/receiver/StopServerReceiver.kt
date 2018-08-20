@@ -1,4 +1,4 @@
-package de.codehat.remotebatterystatus
+package de.codehat.remotebatterystatus.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
