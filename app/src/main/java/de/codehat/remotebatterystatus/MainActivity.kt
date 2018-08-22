@@ -5,21 +5,20 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.LibsBuilder
 import de.codehat.remotebatterystatus.service.WebServerService
 import de.codehat.remotebatterystatus.util.ServiceUtil
 import de.codehat.remotebatterystatus.util.WifiUtil
-
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         const val DEFAULT_PORT: Int = 8080
     }
 
-    private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout
     private lateinit var editTextPort: EditText
     private lateinit var floatingActionBtnOnOff: FloatingActionButton
     private lateinit var textViewInfoMessage: View
@@ -36,7 +35,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.toolbar))
+
+//        val introThread = Thread {
+//            val getPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(baseContext)
+//            val isFirstStart: Boolean = getPrefs.getBoolean("firstStart", true)
+//
+//            if (isFirstStart) {
+//                val i = Intent(this, IntroActivity::class.java)
+//
+//                runOnUiThread {
+//                    startActivity(i)
+//                }
+//
+//                val e: SharedPreferences.Editor = getPrefs.edit()
+//                e.putBoolean("firstStart", false)
+//                e.apply()
+//            }
+//
+//        }
+//        introThread.start()
 
         createNotificationChannel()
 
@@ -81,7 +99,21 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                return true
+            }
+            R.id.action_about -> {
+                val lb = LibsBuilder()
+                lb.activityStyle = Libs.ActivityStyle.DARK
+                lb.withAboutAppName(getString(R.string.app_name))
+                lb.withAboutDescription("A simple remote battery status lookup app.")
+                lb.withAboutIconShown(true)
+                lb.withAboutVersionShown(true)
+                lb.withFields(R.string::class.java.fields)
+                lb.start(this)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -36,7 +36,7 @@ class RemoteBatteryStatusWebServer(private val context: Context,
         }
     }
 
-    private fun getBatteryLevel(batteryIntent: Intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))): Float {
+    private fun getBatteryLevel(batteryIntent: Intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))!!): Float {
         val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
         return level.toFloat() / scale.toFloat() * 100.0f

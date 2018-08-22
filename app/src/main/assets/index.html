@@ -63,8 +63,8 @@
                     const batteryPercentageStr = xhttp.responseText + " %";
                     const batteryPercentageInt = parseInt(xhttp.responseText)
 
-                    aboutElement.style.color = makeRgbCss(batteryPercentageInt / 100.0, 0.30);
                     bodyElement.style.backgroundColor = makeRgbCss(batteryPercentageInt / 100.0, 0.15);
+                    aboutElement.style.color = makeRgbCss(batteryPercentageInt / 100.0, 0.30);
                     document.getElementsByTagName("title")[0].innerText = batteryPercentageStr;
                     document.getElementById("batteryPercentage").innerText = batteryPercentageStr;
 
@@ -84,8 +84,8 @@
                 if (retries === RETRY_AMOUNT + 1) {
                     clearInterval(intervalId);
 
-                    bodyElement.style.color = "rgba(255,0,0,0.30)";
-                    aboutElement.style.backgroundColor = "rgba(255,0,0,0.60)";
+                    bodyElement.style.backgroundColor = "rgba(255,0,0,0.30)";
+                    aboutElement.style.color = "rgba(255,0,0,0.60)";
                     document.getElementsByTagName("title")[0].innerText = "Failed";
                     document.getElementById("batteryPercentage").innerText = "Failed! Reload page!";
                 } else {

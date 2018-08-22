@@ -7,4 +7,20 @@
     <string name="channel_description">Der Standard Benachrichtigungskanal.</string>
     <string name="wifi_message">Du musst mit dem WLAN verbunden sein, um dies zu nutzen.</string>
     <string name="notification_description">Web Interface ist erreichbar unter %1$s:%2$d!</string>
+    <string name="notification_server_stop">STOPPEN</string>
+    <string name="pref_title_vibrate">Vibrieren</string>
+    <string name="pref_ringtone_silent">Stumm</string>
+    <string name="pref_title_ringtone">Klingelton</string>
+    <string name="pref_title_new_message_notifications">Neue Benachrichtigungen</string>
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_title_system_sync_settings">System Synchronisations-Einstellungen</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="pref_header_general">Allgemein</string>
+    <string name="pref_title_display_name">Anzeige Name</string>
+    <string name="pref_default_display_name">Max Mustermann</string>
+    <string name="pref_header_data_sync">Daten &amp; Sync</string>
+    <string name="pref_title_sync_frequency">Sync Frequenz</string>
+    <string name="pref_title_add_friends_to_messages">Füge Freunde zu Nachrichten hinzu</string>
+    <string name="pref_description_social_recommendations">Vorschläge an Menschen zum Kontaktieren basierend auf deiner Nachrichten-Historie</string>
+    <string name="pref_title_social_recommendations">Soziale Vorschläge aktivieren</string>
 </resources>

@@ -6,7 +6,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.util.Log
 import android.widget.Toast
 import de.codehat.remotebatterystatus.MainActivity
@@ -117,14 +117,14 @@ class WebServerService: Service() {
         val mainPendingIntent: PendingIntent = PendingIntent.getBroadcast(applicationContext, 0, mainIntent, 0)
 
         val notification: Notification = NotificationCompat.Builder(this, "main")
-                //.setSmallIcon()
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_description, hostname, port))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .setDefaults(Notification.DEFAULT_SOUND)
-                //.addAction(R.drawable.navigation_empty_icon, "STOP", mainPendingIntent)
+                .addAction(R.drawable.ic_stop_server, "STOP", mainPendingIntent)
                 .build()
 
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
